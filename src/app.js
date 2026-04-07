@@ -1,11 +1,15 @@
-const express = require('express');
-const pool = require('./config/db');
+import express from 'express';
+import cors from 'cors';
+import pool from './config/db.js';
+import authRoutes from './routes/auth.routes.js';
 
 const app = express();
 
+app.use(cors({
+  origin: process.env.FRONTEND_URL,
+}));
 app.use(express.json());
 
-// Prueba de conexión a la BD al arrancar
 pool.getConnection()
   .then(connection => {
     console.log('Conexión a MariaDB establecida correctamente');
@@ -19,4 +23,6 @@ app.get('/', (req, res) => {
   res.json({ message: 'LearnHub API funcionando' });
 });
 
-module.exports = app;
+app.use('/api/auth', authRoutes);
+
+export default app;
