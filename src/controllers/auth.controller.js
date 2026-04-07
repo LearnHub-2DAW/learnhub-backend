@@ -5,10 +5,6 @@ import * as usuarioModel from '../models/usuario.model.js';
 const register = async (req, res) => {
   const { nombre_usuario, correo_electronico, contrasena, nombre_completo } = req.body;
 
-  if (!nombre_usuario || !correo_electronico || !contrasena || !nombre_completo) {
-    return res.status(400).json({ message: 'Todos los campos son obligatorios' });
-  }
-
   const usuarioExistente = await usuarioModel.findByEmail(correo_electronico);
   if (usuarioExistente) {
     return res.status(409).json({ message: 'El correo ya está registrado' });
@@ -31,10 +27,6 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   const { correo_electronico, contrasena } = req.body;
-
-  if (!correo_electronico || !contrasena) {
-    return res.status(400).json({ message: 'Correo y contraseña son obligatorios' });
-  }
 
   const usuario = await usuarioModel.findByEmail(correo_electronico);
   if (!usuario) {
