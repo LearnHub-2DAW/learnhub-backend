@@ -1,5 +1,13 @@
 import pool from '../config/db.js';
 
+const findByUsername = async (nombre_usuario) => {
+  const [rows] = await pool.query(
+    'SELECT * FROM usuarios WHERE nombre_usuario = ?',
+    [nombre_usuario]
+  );
+  return rows[0];
+};
+
 const findByEmail = async (correo) => {
   const [rows] = await pool.query(
     'SELECT * FROM usuarios WHERE correo_electronico = ?',
@@ -8,11 +16,11 @@ const findByEmail = async (correo) => {
   return rows[0];
 };
 
-const create = async ({ nombre_usuario, correo_electronico, contrasena, nombre_completo }) => {
+const create = async ({ nombre_usuario, correo_electronico, contrasena, nombre, apellidos, ciudad, pais }) => {
   const [result] = await pool.query(
-    `INSERT INTO usuarios (nombre_usuario, correo_electronico, contrasena, nombre_completo)
-     VALUES (?, ?, ?, ?)`,
-    [nombre_usuario, correo_electronico, contrasena, nombre_completo]
+    `INSERT INTO usuarios (nombre_usuario, correo_electronico, contrasena, nombre, apellidos, ciudad, pais)
+     VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    [nombre_usuario, correo_electronico, contrasena, nombre, apellidos, ciudad ?? null, pais ?? null]
   );
   return result.insertId;
 };
@@ -34,4 +42,4 @@ const getRoles = async (id_usuario) => {
   return rows.map(r => r.nombre);
 };
 
-export { findByEmail, create, assignRole, getRoles };
+export { findByUsername, findByEmail, create, assignRole, getRoles };
