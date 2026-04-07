@@ -3,10 +3,15 @@ import jwt from 'jsonwebtoken';
 import * as usuarioModel from '../models/usuario.model.js';
 
 const register = async (req, res) => {
-  const { nombre_usuario, correo_electronico, contrasena, nombre_completo } = req.body;
+  const { nombre_usuario, correo_electronico, contrasena, nombre, apellidos, ciudad, pais } = req.body;
 
-  const usuarioExistente = await usuarioModel.findByEmail(correo_electronico);
+  const usuarioExistente = await usuarioModel.findByUsername(nombre_usuario);
   if (usuarioExistente) {
+    return res.status(409).json({ message: 'El nombre de usuario ya está en uso' });
+  }
+
+  const correoExistente = await usuarioModel.findByEmail(correo_electronico);
+  if (correoExistente) {
     return res.status(409).json({ message: 'El correo ya está registrado' });
   }
 
@@ -16,7 +21,10 @@ const register = async (req, res) => {
     nombre_usuario,
     correo_electronico,
     contrasena: hashedPassword,
-    nombre_completo,
+    nombre,
+    apellidos,
+    ciudad,
+    pais,
   });
 
   // Por defecto se registra como alumno (id_rol = 3)
@@ -26,9 +34,9 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const { correo_electronico, contrasena } = req.body;
+  const { nombre_usuario, contrasena } = req.body;
 
-  const usuario = await usuarioModel.findByEmail(correo_electronico);
+  const usuario = await usuarioModel.findByUsername(nombre_usuario);
   if (!usuario) {
     return res.status(401).json({ message: 'Credenciales incorrectas' });
   }
@@ -51,7 +59,8 @@ const login = async (req, res) => {
     usuario: {
       id: usuario.id,
       nombre_usuario: usuario.nombre_usuario,
-      nombre_completo: usuario.nombre_completo,
+      nombre: usuario.nombre,
+      apellidos: usuario.apellidos,
       correo_electronico: usuario.correo_electronico,
       roles,
     },

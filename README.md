@@ -87,9 +87,12 @@ Registra un nuevo usuario con rol **alumno** por defecto.
 ```json
 {
   "nombre_usuario": "string (3-100 caracteres)",
-  "correo_electronico": "string (formato email)",
   "contrasena": "string (mínimo 8 caracteres)",
-  "nombre_completo": "string (2-150 caracteres)"
+  "correo_electronico": "string (formato email)",
+  "nombre": "string (2-75 caracteres)",
+  "apellidos": "string (2-75 caracteres)",
+  "ciudad": "string (opcional)",
+  "pais": "string (opcional)"
 }
 ```
 
@@ -108,7 +111,7 @@ Inicia sesión y devuelve un token JWT.
 **Body:**
 ```json
 {
-  "correo_electronico": "string",
+  "nombre_usuario": "string",
   "contrasena": "string"
 }
 ```
@@ -120,7 +123,8 @@ Inicia sesión y devuelve un token JWT.
   "usuario": {
     "id": 1,
     "nombre_usuario": "string",
-    "nombre_completo": "string",
+    "nombre": "string",
+    "apellidos": "string",
     "correo_electronico": "string",
     "roles": ["alumno"]
   }
