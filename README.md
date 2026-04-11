@@ -147,13 +147,13 @@ Authorization: Bearer <token>
 
 ### Cursos
 
-| Método | Ruta | Descripción | Protegida |
+| Método | Ruta | Descripción | Roles |
 |---|---|---|---|
-| `GET` | `/api/cursos` | Listar todos los cursos | No |
-| `GET` | `/api/cursos/:id` | Obtener un curso por id | No |
-| `POST` | `/api/cursos` | Crear un curso | No |
-| `PUT` | `/api/cursos/:id` | Actualizar un curso | No |
-| `DELETE` | `/api/cursos/:id` | Eliminar un curso | No |
+| `GET` | `/api/cursos` | Listar todos los cursos | Público |
+| `GET` | `/api/cursos/:id` | Obtener un curso por id | Público |
+| `POST` | `/api/cursos` | Crear un curso | admin, profesor |
+| `PUT` | `/api/cursos/:id` | Actualizar un curso | admin, profesor |
+| `DELETE` | `/api/cursos/:id` | Eliminar un curso | admin |
 
 **Body para POST y PUT:**
 ```json
