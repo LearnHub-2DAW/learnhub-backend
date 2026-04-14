@@ -60,20 +60,24 @@ npm start     # Producción: arranca con node
 ```
 src/
 ├── config/
-│   └── db.js              # Conexión a MariaDB (pool de conexiones)
+│   └── db.js                  # Conexión a MariaDB (pool de conexiones)
 ├── controllers/
-│   └── auth.controller.js # Lógica de registro y login
+│   ├── auth.controller.js     # Lógica de registro y login
+│   └── curso.controller.js    # CRUD de cursos
 ├── middlewares/
-│   ├── auth.middleware.js  # Verificación de JWT y roles
+│   ├── auth.middleware.js     # Verificación de JWT y roles
 │   └── validate.middleware.js # Validación de body con Zod
 ├── models/
-│   └── usuario.model.js   # Consultas SQL de usuarios
+│   ├── usuario.model.js       # Consultas SQL de usuarios
+│   └── curso.model.js         # Consultas SQL de cursos
 ├── routes/
-│   └── auth.routes.js     # Rutas de autenticación
+│   ├── auth.routes.js         # Rutas de autenticación
+│   └── curso.routes.js        # Rutas de cursos
 ├── schemas/
-│   └── auth.schema.js     # Esquemas de validación de auth
-├── app.js                 # Configuración de Express
-└── server.js              # Arranque del servidor
+│   ├── auth.schema.js         # Esquemas de validación de auth
+│   └── curso.schema.js        # Esquemas de validación de cursos
+├── app.js                     # Configuración de Express
+└── server.js                  # Arranque del servidor
 ```
 
 ## Endpoints
@@ -140,6 +144,33 @@ Para acceder a rutas protegidas, incluir el token en la cabecera de la petición
 ```
 Authorization: Bearer <token>
 ```
+
+### Cursos
+
+| Método | Ruta | Descripción | Roles |
+|---|---|---|---|
+| `GET` | `/api/cursos` | Listar todos los cursos | Público |
+| `GET` | `/api/cursos/:id` | Obtener un curso por id | Público |
+| `POST` | `/api/cursos` | Crear un curso | admin, profesor |
+| `PUT` | `/api/cursos/:id` | Actualizar un curso | admin, profesor |
+| `DELETE` | `/api/cursos/:id` | Eliminar un curso | admin |
+
+**Body para POST y PUT:**
+```json
+{
+  "nombre": "string (3-50 caracteres)"
+}
+```
+
+**Respuesta GET:**
+```json
+{
+  "id": 1,
+  "nombre": "string"
+}
+```
+
+---
 
 ## Roles
 

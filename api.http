@@ -1,0 +1,25 @@
+### Obtener cursos
+GET http://localhost:3000/api/cursos
+
+### Crear nuevo curso
+POST http://localhost:3000/api/cursos
+Content-Type: application/json
+
+{
+  "nombre": "2º DAW"
+}
+
+### Obtener curso por id
+GET http://localhost:3000/api/cursos/4
+
+### Actualizar un curso
+PUT http://localhost:3000/api/cursos/8
+Content-Type: application/json
+
+{
+  "nombre": "1º SMR"
+}
+
+### Eliminar un curso
+DELETE  http://localhost:3000/api/cursos/4
+

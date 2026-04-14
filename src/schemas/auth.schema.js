@@ -11,7 +11,6 @@ export const registerSchema = z.object({
     .min(8, 'La contraseña debe tener al menos 8 caracteres'),
 
   correo_electronico: z
-    .string({ error: 'El correo electrónico es obligatorio' })
     .email('El correo electrónico no tiene un formato válido')
     .max(100, 'El correo electrónico no puede superar los 100 caracteres'),
 

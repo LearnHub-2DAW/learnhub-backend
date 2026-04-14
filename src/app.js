@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import pool from './config/db.js';
 import authRoutes from './routes/auth.routes.js';
+import cursoRoutes from './routes/curso.routes.js';
 
 const app = express();
 
@@ -24,5 +25,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
+
+app.use('/api/cursos', cursoRoutes);
 
 export default app;
