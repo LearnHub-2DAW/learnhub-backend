@@ -42,4 +42,30 @@ const getRoles = async (id_usuario) => {
   return rows.map(r => r.nombre);
 };
 
-export { findByUsername, findByEmail, create, assignRole, getRoles };
+const findById = async (id) => {
+  const [rows] = await pool.query(
+    `SELECT id, nombre_usuario, correo_electronico, nombre, apellidos, ciudad, pais,
+            url_imagen_perfil, notificaciones, canal_tareas, canal_encuestas,
+            formato_hora, primer_dia_semana, n_max_eventos
+     FROM usuarios WHERE id = ?`,
+    [id]
+  );
+  return rows[0];
+};
+
+const updatePerfil = async ({ id, nombre, apellidos, ciudad, pais, url_imagen_perfil,
+  notificaciones, canal_tareas, canal_encuestas, formato_hora, primer_dia_semana, n_max_eventos }) => {
+  const [result] = await pool.query(
+    `UPDATE usuarios
+     SET nombre = ?, apellidos = ?, ciudad = ?, pais = ?,
+         url_imagen_perfil = ?, notificaciones = ?, canal_tareas = ?,
+         canal_encuestas = ?, formato_hora = ?, primer_dia_semana = ?, n_max_eventos = ?
+     WHERE id = ?`,
+    [nombre, apellidos, ciudad ?? null, pais ?? null, url_imagen_perfil ?? null,
+      notificaciones, canal_tareas, canal_encuestas, formato_hora, primer_dia_semana,
+      n_max_eventos ?? null, id]
+  );
+  return result.affectedRows;
+};
+
+export { findByUsername, findByEmail, create, assignRole, getRoles, findById, updatePerfil };
